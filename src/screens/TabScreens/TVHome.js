@@ -9,16 +9,17 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import SingleStreamModal from '../components/Single_Stream/SingleStreamModal';
+import SingleStreamModal from '../../components/Single_Stream/SingleStreamModal';
 import {useNavigation} from '@react-navigation/native';
-import Header from '../components/Header/Header';
+import Header from '../../components/Header/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CategoryDetailsScreen from './CategoryDetailsScreen';
-import {ChannelsContext} from '../Context/ChannelsContext';
-import {getChannels} from '../helper/getChannels';
-import {getMergedChannels} from '../helper/getMergedChannels';
-import BannerAd from '../components/adComponents/BannerAd';
-const Home = () => {
+import CategoryDetailsScreen from '../StackScreens/CategoryDetailsScreen';
+import {ChannelsContext} from '../../Context/ChannelsContext';
+import {getChannels} from '../../helper/getChannels';
+import {getMergedChannels} from '../../helper/getMergedChannels';
+import BannerAd from '../../components/adComponents/BannerAd';
+import {globalColors} from '../../GlobalStyles';
+const TVHome = () => {
   const navigation = useNavigation();
   const {data, setData} = useContext(ChannelsContext);
   const [loading, setLoading] = useState(false);
@@ -57,38 +58,51 @@ const Home = () => {
     checkPlaylist();
   }, []);
 
+  const handleRefresh = () => {
+    checkPlaylist();
+  };
+
   const handleSeachChannels = () => {
     navigation.navigate('GooglePageScreen');
   };
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Header title={'USA NEWS IPTV'} />
+      <Header title={'Live TV'} refreshData={handleRefresh} />
       {!loading && data === null && (
         <View style={styles.container}>
           <Text style={{fontSize: 24, fontWeight: 'bold', color: '#000'}}>
-            No Playlist Added
+            No Live TV Channels Added
           </Text>
-          <Icon name={'search'} size={32} color={'#039EBD'} />
-          <Text style={{color: '#000'}}>
-            Click on "Search Playlist" and select suitable website
+          <Icon
+            name={'search'}
+            size={32}
+            color={globalColors.primaryBackground}
+          />
+          <Text style={{color: globalColors.secondaryText}}>
+            Click on "Search Channels" and select suitable website
           </Text>
           <Icon.Button
             name="live-tv"
-            backgroundColor="#039EBD"
+            backgroundColor={globalColors.primaryBackground}
             onPress={handleSeachChannels}>
-            <Text style={{fontFamily: 'Arial', fontSize: 15, color: '#fff'}}>
-              Search Playlist
+            <Text
+              style={{
+                fontFamily: 'Arial',
+                fontSize: 15,
+                color: globalColors.primaryText,
+              }}>
+              Search Channels
             </Text>
           </Icon.Button>
-          <Icon.Button
+          {/* <Icon.Button
             name="play-circle"
             backgroundColor="#039EBD"
             onPress={toggleModal}>
             <Text style={{fontFamily: 'Arial', fontSize: 15, color: '#fff'}}>
               Play Single Stream
             </Text>
-          </Icon.Button>
+          </Icon.Button> */}
           {/* modal signle stream */}
           <Modal
             style={{
@@ -112,16 +126,19 @@ const Home = () => {
             alignItems: 'center',
             flexDirection: 'row',
           }}>
-          <ActivityIndicator size="large" color="#039EBD" />
+          <ActivityIndicator
+            size="large"
+            color={globalColors.primaryBackground}
+          />
         </View>
       )}
       {/* banner ad */}
-      <BannerAd placement_id={'948800379889675_948801103222936'} />
+      {/* <BannerAd placement_id={'948800379889675_948801103222936'} /> */}
     </SafeAreaView>
   );
 };
 
-export default Home;
+export default TVHome;
 
 const styles = StyleSheet.create({
   container: {

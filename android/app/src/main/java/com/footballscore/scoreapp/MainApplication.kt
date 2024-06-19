@@ -1,4 +1,4 @@
-package com.iptvusa.iptvapp
+package com.footballscore.scoreapp
 
 import android.app.Application
 import com.facebook.react.PackageList

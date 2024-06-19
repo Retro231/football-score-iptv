@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.iptvusa.iptvapp"
+    namespace "com.footballscore.scoreapp"
     defaultConfig {
-        applicationId "com.iptvusa.iptvapp"
+        applicationId "com.footballscore.scoreapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

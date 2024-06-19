@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  BackHandler,
   Dimensions,
   StyleSheet,
   Text,
@@ -10,12 +11,13 @@ import {WebView} from 'react-native-webview';
 import {useNavigation} from '@react-navigation/native';
 import {Button} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getChannels} from '../helper/getChannels';
-import {ChannelsContext} from '../Context/ChannelsContext';
-import BannerAd from '../components/adComponents/BannerAd';
+import {getChannels} from '../../helper/getChannels';
+import {ChannelsContext} from '../../Context/ChannelsContext';
+import BannerAd from '../../components/adComponents/BannerAd';
 import {InterstitialAdManager} from 'react-native-fbads';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from '@react-native-community/checkbox';
+import {globalColors} from '../../GlobalStyles';
 
 const GooglePageScreen = () => {
   const navigation = useNavigation();
@@ -106,14 +108,14 @@ const GooglePageScreen = () => {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem('channels', jsonValue);
       setData(value);
-      navigation.navigate('Home');
+      navigation.navigate('TVHome');
 
       // Interstitial Ad
-      InterstitialAdManager.showAd('948800379889675_948801323222914')
-        .then(didClick => {})
-        .catch(error => {
-          console.log('err', error);
-        });
+      // InterstitialAdManager.showAd('948800379889675_948801323222914')
+      //   .then(didClick => {})
+      //   .catch(error => {
+      //     console.log('err', error);
+      //   });
     } catch (e) {
       // saving error
     }
@@ -127,12 +129,31 @@ const GooglePageScreen = () => {
     }
     setShowModal1(false);
     // Interstitial Ad
-    InterstitialAdManager.showAd('948800379889675_948801323222914')
-      .then(didClick => {})
-      .catch(error => {
-        console.log('err', error);
-      });
+    // InterstitialAdManager.showAd('948800379889675_948801323222914')
+    //   .then(didClick => {})
+    //   .catch(error => {
+    //     console.log('err', error);
+    //   });
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      // navigation.reset({
+      //   index: 0,
+      //   routes: [{name: 'Home'}],
+      // });
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={styles.container}>
       <WebView
@@ -152,7 +173,10 @@ const GooglePageScreen = () => {
           <View style={styles.modal}>
             {searching ? (
               <>
-                <ActivityIndicator size={'small'} color={'#fff'} />
+                <ActivityIndicator
+                  size={'small'}
+                  color={globalColors.primaryText}
+                />
                 <Text style={styles.modalValue}>Searching playlist....</Text>
               </>
             ) : (
@@ -163,7 +187,7 @@ const GooglePageScreen = () => {
                 </View>
                 <Button
                   style={styles.modalButton}
-                  color={'#003A53'}
+                  color={globalColors.secondaryBackground}
                   onPress={returnToMainPage}
                   title="Go Back"></Button>
               </>
@@ -176,7 +200,10 @@ const GooglePageScreen = () => {
           <View style={styles.modal}>
             {searching ? (
               <>
-                <ActivityIndicator size={'small'} color={'#fff'} />
+                <ActivityIndicator
+                  size={'small'}
+                  color={globalColors.primaryText}
+                />
                 <Text style={styles.modalValue}>Searching playlist....</Text>
               </>
             ) : (
@@ -187,7 +214,7 @@ const GooglePageScreen = () => {
                 </View>
                 <Button
                   style={styles.modalButton}
-                  color={'#003A53'}
+                  color={globalColors.secondaryBackground}
                   onPress={goToNextPage}
                   title="Save Playlist"></Button>
               </>
@@ -199,27 +226,32 @@ const GooglePageScreen = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
             <View style={{gap: 10}}>
-              <Text style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>
+              <Text
+                style={{
+                  color: globalColors.primaryText,
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                }}>
                 Are you unsure about what to do next? Let us help you!
               </Text>
               <View style={{gap: 5}}>
-                <Text style={{color: '#fff', fontSize: 15}}>
+                <Text style={{color: globalColors.primaryText, fontSize: 15}}>
                   If you know what to do next, click 'Continue' to proceed.
                 </Text>
                 <Button
                   title="Continue"
-                  color={'#003A53'}
+                  color={globalColors.secondaryBackground}
                   onPress={() => setshowpopup(false)}
                 />
               </View>
               <View style={{gap: 5}}>
-                <Text style={{color: '#fff', fontSize: 15}}>
+                <Text style={{color: globalColors.primaryText, fontSize: 15}}>
                   Click 'Tutorial' if you'd like a step-by-step guide on using
                   our application.
                 </Text>
                 <Button
                   title="Tutorial"
-                  color={'#003A53'}
+                  color={globalColors.secondaryBackground}
                   onPress={() => {
                     navigation.navigate('HowToUse');
                     setshowpopup(false);
@@ -237,10 +269,10 @@ const GooglePageScreen = () => {
                 disabled={false}
                 value={togglePopUpCheckBox}
                 onValueChange={handlePopupCheckbox}
-                onTintColor="#fff"
-                onFillColor="#003A53"
+                onTintColor={globalColors.primaryText}
+                onFillColor={globalColors.secondaryBackground}
               />
-              <Text style={{color: '#fff', fontSize: 15}}>
+              <Text style={{color: globalColors.primaryText, fontSize: 15}}>
                 Don't show this again
               </Text>
             </View>
@@ -248,7 +280,7 @@ const GooglePageScreen = () => {
         </View>
       )}
       {/* banner ad */}
-      <BannerAd placement_id={'948800379889675_948801103222936'} />
+      {/* <BannerAd placement_id={'948800379889675_948801103222936'} /> */}
     </View>
   );
 };
@@ -269,7 +301,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modal: {
-    backgroundColor: '#039EBD',
+    backgroundColor: globalColors.primaryBackground,
     padding: 30,
     borderRadius: 15,
     gap: 5,
@@ -277,12 +309,11 @@ const styles = StyleSheet.create({
     // height: Dimensions.get('screen').height / 2,
   },
   modalValue: {
-    color: 'white',
+    color: globalColors.primaryText,
     textAlign: 'center',
     margin: 10,
     fontSize: 18,
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  modalButton: {},
 });

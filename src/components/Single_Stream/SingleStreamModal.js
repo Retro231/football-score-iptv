@@ -5,7 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {InterstitialAdManager, NativeAdsManager} from 'react-native-fbads';
 import {useNavigation} from '@react-navigation/native';
 import AdComponent from '../adComponents/AdComponent';
-const adsManager = new NativeAdsManager('948800379889675_949813169788396', 2);
+import {globalColors} from '../../GlobalStyles';
+// const adsManager = new NativeAdsManager('948800379889675_949813169788396', 2);
 const SingleStreamModal = ({onClose}) => {
   const [url, setUrl] = useState('');
   const navigation = useNavigation();
@@ -23,16 +24,16 @@ const SingleStreamModal = ({onClose}) => {
   }, [url]);
 
   // ads
-  useEffect(() => {
-    // Interstitial Ad
-    InterstitialAdManager.showAd(
-      '948800379889675_948801323222914',
-    )
-      .then(didClick => {})
-      .catch(error => {
-        console.log('err', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Interstitial Ad
+  //   InterstitialAdManager.showAd(
+  //     '948800379889675_948801323222914',
+  //   )
+  //     .then(didClick => {})
+  //     .catch(error => {
+  //       console.log('err', error);
+  //     });
+  // }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex: 1}}>
@@ -40,8 +41,8 @@ const SingleStreamModal = ({onClose}) => {
           style={{
             alignItems: 'center',
             borderWidth: 1,
-            backgroundColor: '#039EBD',
-            borderColor: '#039EBD',
+            backgroundColor: globalColors.primaryBackground,
+            borderColor: globalColors.primaryBackground,
           }}
           onPress={onClose}>
           <Text style={{fontSize: 24, color: '#fff'}}>X</Text>
@@ -62,7 +63,7 @@ const SingleStreamModal = ({onClose}) => {
         <View style={styles.actionBtn}>
           <Icon.Button
             name="play-circle"
-            backgroundColor="#039EBD"
+            backgroundColor={globalColors.primaryBackground}
             iconStyle={{marginRight: 0}}
             onPress={onPlayBtnClick}>
             <Text
@@ -77,9 +78,9 @@ const SingleStreamModal = ({onClose}) => {
             </Text>
           </Icon.Button>
         </View>
-        <View style={{justifyContent: 'center', margin: 10, marginTop: 20}}>
+        {/* <View style={{justifyContent: 'center', margin: 10, marginTop: 20}}>
           <AdComponent adsManager={adsManager} />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#039EBD',
+    color: globalColors.primaryBackground,
   },
   textInput: {
     gap: 2,
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#000',
+    color: globalColors.primaryBackground,
   },
   inputField: {
     borderWidth: 1,
-    borderColor: '#039EBD',
+    borderColor: globalColors.primaryBackground,
     borderRadius: 5,
-    color: '#000',
+    color: globalColors.primaryBackground,
   },
   actionBtn: {
     paddingHorizontal: 25,

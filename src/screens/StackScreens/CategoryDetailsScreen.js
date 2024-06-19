@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Dimensions,
   FlatList,
   RefreshControl,
@@ -9,11 +10,13 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ChannelCard from '../components/ChannelCard';
+import ChannelCard from '../../components/ChannelCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SearchContext} from '../Context/SearchContext';
-import {getMergedChannels} from '../helper/getMergedChannels';
-import {getChannels} from '../helper/getChannels';
+import {SearchContext} from '../../Context/SearchContext';
+import {getMergedChannels} from '../../helper/getMergedChannels';
+import {getChannels} from '../../helper/getChannels';
+import {globalColors} from '../../GlobalStyles';
+import {useNavigation} from '@react-navigation/native';
 const headItem = [
   {
     id: 1,
@@ -171,19 +174,29 @@ const CategoryDetailsScreen = ({data}) => {
             style={[
               styles.headItem,
               {
-                backgroundColor: active === item.id ? '#039EBD' : '#d4d4d4',
+                backgroundColor:
+                  active === item.id
+                    ? globalColors.secondaryBackground
+                    : globalColors.primaryBackground,
               },
             ]}>
             <Icon
               name={item.iconName}
               size={item.iconSize}
-              color={active === item.id ? '#fff' : '#039EBD'}
+              color={
+                active === item.id
+                  ? globalColors.primaryBackground
+                  : globalColors.secondaryBackground
+              }
             />
             <Text
               style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
-                color: active === item.id ? '#fff' : '#039EBD',
+                color:
+                  active === item.id
+                    ? globalColors.primaryBackground
+                    : globalColors.secondaryBackground,
               }}>
               {item.name}
             </Text>

@@ -27,11 +27,11 @@ const Player = () => {
           navigation.goBack(null);
 
           // show ad
-          InterstitialAdManager.showAd('948800379889675_948801323222914')
-            .then(didClick => {})
-            .catch(error => {
-              console.log('err', error);
-            });
+          // InterstitialAdManager.showAd('948800379889675_948801323222914')
+          //   .then(didClick => {})
+          //   .catch(error => {
+          //     console.log('err', error);
+          //   });
         },
       },
     ]);
@@ -69,9 +69,9 @@ const Player = () => {
         />
       </View>
       {/* banner ad */}
-      {!fullScreen && (
+      {/* {!fullScreen && (
         <BannerAd placement_id={'948800379889675_948801103222936'} />
-      )}
+      )} */}
     </>
   );
 };

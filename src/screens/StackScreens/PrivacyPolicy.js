@@ -1,8 +1,19 @@
-import {Linking, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import Header from '../components/Header/Header';
+import {
+  BackHandler,
+  Linking,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect} from 'react';
+import Header from '../../components/Header/Header';
+import {globalColors} from '../../GlobalStyles';
+import {useNavigation} from '@react-navigation/native';
 
 const PrivacyPolicy = () => {
+  const navigation = useNavigation();
+
   const redirectToGmail = receiverEmail => {
     const gmailURL = `mailto:${receiverEmail}`;
 
@@ -19,6 +30,24 @@ const PrivacyPolicy = () => {
       })
       .catch(err => console.error('An error occurred', err));
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Home'}],
+      });
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <>
       <Header goBackTo={'oneStep'} />
@@ -168,7 +197,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   title: {
-    color: '#039EBD',
+    color: globalColors.primaryBackground,
     fontSize: 20,
     margin: 10,
     fontWeight: 'bold',
